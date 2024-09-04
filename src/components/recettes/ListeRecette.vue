@@ -16,12 +16,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in store.recettes" :key="item.id">
+        <!-- <tr v-for="item in store.recettes" :key="item.id">
           <td scope="row">{{ `# ${item.id} ` }}</td>
           <td>{{ item.titre }}</td>
           <td>{{ item.ingredients }}</td>
           <td>{{ item.type }}</td>
-        </tr>
+        </tr> -->
 
       </tbody>
     </table>
