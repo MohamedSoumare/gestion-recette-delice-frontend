@@ -1,10 +1,8 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
 
 export const useRecetteStore = defineStore("recetteStore", {
     state: () => ({
         recettes: [
-
             {
                 id: 1,
                 titre: "Crêpe Nutella",
@@ -18,34 +16,26 @@ export const useRecetteStore = defineStore("recetteStore", {
                 type: "Plat",
             }
         ],
-         newId: 3
-
-        // recetteForm: reactive({
-        //     titre: "",
-        //     ingredients: "",
-        //     type: "",
-        // })
+        nextId: 3  
     }),
     actions: {
-        edit(id) {
-            // const index = this.recettes
-            this.recettes[id] = {...this.recetteForm, id}
+        add(newRecette) {
+            this.recettes.push({
+                id: this.nextId++,  
+                ...newRecette
+            });
+        },
+        edit(id, recetteModifiee) {
+            const index = this.recettes.findIndex((recette) => recette.id === id);
+            if (index !== -1) {
+                this.recettes[index] = { ...recetteModifiee, id };
+            }
         },
         destroy(id) {
-            this.recettes= this.recettes.filter((recette) => recette.id !== id)
-        },
-        show(id) {
-            const recetteIndex = this.recettes.findIndex(c => c.id == id) 
-            if (recetteIndex !== -1) {
-                this.recettes = this.recettes[recetteIndex]
-            }  
-        },
-        add(recette) {
-            recette.id= this.newId++
-            this.recettes.push(recette)
+            this.recettes = this.recettes.filter((recette) => recette.id !== id);
         },
         getById(id) {
-            const recettes = this.recettes.find((r) => r.id === id);
+            return this.recettes.find((r) => r.id === id);
         }
     }
-})
+});
