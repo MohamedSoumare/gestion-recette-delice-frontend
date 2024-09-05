@@ -4,6 +4,7 @@ import { reactive } from "vue";
 export const useRecetteStore = defineStore("recetteStore", {
     state: () => ({
         recettes: [
+
             {
                 id: 1,
                 titre: "Crêpe Nutella",
@@ -17,11 +18,13 @@ export const useRecetteStore = defineStore("recetteStore", {
                 type: "Plat",
             }
         ],
-        recetteForm: reactive({
-            titre: "",
-            ingredients: "",
-            type: "",
-        })
+         newId: 3
+
+        // recetteForm: reactive({
+        //     titre: "",
+        //     ingredients: "",
+        //     type: "",
+        // })
     }),
     actions: {
         edit(id) {
@@ -38,10 +41,11 @@ export const useRecetteStore = defineStore("recetteStore", {
             }  
         },
         add(recette) {
+            recette.id= this.newId++
             this.recettes.push(recette)
         },
         getById(id) {
-            const recette = this.recettes.find((r) => r.id === id);
+            const recettes = this.recettes.find((r) => r.id === id);
         }
     }
 })

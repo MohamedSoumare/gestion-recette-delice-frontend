@@ -1,5 +1,42 @@
-# Vue 3 + Vite
+Une application de gestion de recettes construite avec Vue.js 3, Pinia, et Bootstrap. Elle permet l'ajout, la modification, la suppression, et l'affichage de recettes. Le projet inclut la gestion de version avec Git, le déploiement sur Vercel, la conteneurisation avec Docker, et la publication de l'image Docker sur Docker Hub.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Technologies
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+ . Vue.js 3
+ . Pinia
+ . Bootstrap
+ . Git
+ . Vercel
+ . Docker
+
+ Prérequis
+
+ . Node.js 
+ . Git
+ . Docker
+
+
+ Installation
+
+ Cloner le dépôt :
+
+ git clone https://github.com/FatimataAliouSall/Gestion-recettes.git
+ cd Gestion-recettes
+
+ Installer les dépendances :
+
+ npm install
+
+ Lancer l'application :
+
+ npm run dev
+
+ Déploiement
+
+  . Déployer sur Vercel :
+
+ Conteneurisation avec Docker :
+
+  . docker build -t live-coding .
+  . docker run -p 8080:4173 live-coding
+ 

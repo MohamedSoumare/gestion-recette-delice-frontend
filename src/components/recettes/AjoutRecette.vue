@@ -27,6 +27,29 @@
 </template>
 
 <script setup>
+
+import { ref } from 'vue';
+import { useRecetteStore } from '../../store/recetteStore';
+import { useRouter } from 'vue-router';
+
+
+
+const store = useRecetteStore ()
+
+const router = useRouter()
+const titre = ref('')
+const ingredients = ref('')
+const type = ref('')
+const onSubmit = () => {
+
+    store.add({
+      titre:titre.value,
+      ingredients:ingredients.value,
+      type:type.value
+    })
+    router.push('/recette-list')
+
+}
 </script>
 
 <style scoped></style>
