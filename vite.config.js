@@ -11,5 +11,9 @@ export default defineConfig({
       { find: '@store', replacement: fileURLToPath(new URL('./src/store', import.meta.url)) },
       { find: '@router', replacement: fileURLToPath(new URL('./src/router', import.meta.url)) },
     ],
+    server: {
+      host: '0.0.0.0', 
+      port: 80, 
+    },
   },
 })
