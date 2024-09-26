@@ -81,7 +81,7 @@ Une image Docker a été créée pour ce projet. Pour construire et lancer le co
 
 2. Lancer le conteneur :
 
-   - docker run -p 8080:80 gestion-recettes
+  - docker run -p 8080:80 gestion-recettes
 
 L'application sera accessible à l'adresse http://localhost:80.
 
