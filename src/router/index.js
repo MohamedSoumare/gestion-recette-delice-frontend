@@ -1,12 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import Home from '../components/Home.vue'
-import Ajout from '../components/recettes/AjoutRecette.vue'
+import Ajout from '../components/recettes/AjoutRecette.vue' 
 import Modifie from '../components/recettes/ModifieRecette.vue'
 import Liste from '../components/recettes/ListeRecette.vue'
 import Detail from '../components/recettes/DetailRecette.vue'
 
 const routes = [
+    {
+        path: '/ajout-recette',
+        name: 'ajout-recette',
+        component: Ajout, 
+        },
+    {
+        path: '/recipe-list',
+        name: 'recette-list',
+        component: Liste, 
+    },
     {
         path: "/",
         name: 'home',

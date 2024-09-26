@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid"> 
@@ -30,10 +31,16 @@
   </div>
 </template>
 
+
+    <!-- Router view for page content -->
+    <router-view />
+  </div>
+</template>
 <script setup>
 import { useI18n } from 'vue-i18n';
 
 const { locale } = useI18n();
+
 
 // Fonction pour changer la langue
 const changeLanguage = (event) => {
@@ -41,3 +48,4 @@ const changeLanguage = (event) => {
 };
 
 </script>
+

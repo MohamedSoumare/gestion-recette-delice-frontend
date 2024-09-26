@@ -1,4 +1,5 @@
 <template>
+
   <div class="container">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
       {{ $t("show details") }}
@@ -24,29 +25,39 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t("close") }}</button>
+
           </div>
-        </div>
+      </div>
+      <div class="card-footer text-end">
+        <router-link to="/recette-list" class="btn btn-primary">Retour à la liste</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRecetteStore } from '../../store/recetteStore';
 import { ref, onMounted } from 'vue';
+import { useRecetteStore } from '../../store/recetteStore';
 import { useRoute } from 'vue-router';
 
-const store = useRecetteStore();
-const route = useRoute();
-const recette = ref(null);
-
-const id = Number(route.params.id);  
-
+const store = useRecetteStore(); 
+const route = useRoute(); 
+const recette = ref(null); 
 
 onMounted(() => {
-  recette.value = store.getById(id);
+  const recetteExistante = store.getById(Number(route.params.id)); 
+  if (recetteExistante) {
+    recette.value = recetteExistante; 
+  }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  max-width: 800px;
+}
+
+.card {
+  margin-top: 20px;
+}
+</style>

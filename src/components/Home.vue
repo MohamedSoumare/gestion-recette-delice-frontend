@@ -4,8 +4,6 @@
     <router-link to="/recette-list" class="btn btn-secondary">Découvrir</router-link>
   </div>
   
-
-  
 </template>
 
 <script setup>
