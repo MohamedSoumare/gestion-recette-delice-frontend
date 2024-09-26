@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h3>{{ $t('addRecipe') }}</h3>
+    <h3>Ajout  d'un nouveau recette</h3>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
         <label for="titre" class="form-label">Titre</label>

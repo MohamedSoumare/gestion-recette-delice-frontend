@@ -6,12 +6,12 @@
         <h2>Détails de la recette</h2>
       </div>
       <div class="card-body">
-        <div v-if="recette">
-          <p><strong>Titre:</strong> {{ recette.titre }}</p>
-          <p><strong>Ingrédients:</strong> {{ recette.ingredients }}</p>
-          <p><strong>Type:</strong> {{ recette.type }}</p>
-          <p><strong>Catégorie:</strong> {{ recette.categorie }}</p>
-        </div>
+          <div v-if="recette">
+            <p><strong>Titre:</strong> {{ recette.titre }}</p>
+            <p><strong>Ingrédients:</strong> {{ recette.ingredients }}</p>
+            <p><strong>Type:</strong> {{ recette.type }}</p>
+            <p><strong>Catégorie:</strong> {{ recette.categorie }}</p>
+          </div>
       </div>
       <div class="card-footer text-end">
         <router-link to="/recette-list" class="btn btn-primary">Retour à la liste</router-link>
