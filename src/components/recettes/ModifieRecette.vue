@@ -1,16 +1,17 @@
 <template>
   <div class="container">
-    <h2>Modifier la recette</h2>
+    <h2>{{ $t("editRecipe") }}</h2>
     <form @submit.prevent="updateRecette">
       <div class="mb-3">
-        <label for="titre" class="form-label">Titre</label>
+        <label for="titre" class="form-label">{{ $t("title") }}</label>
         <input v-model="recette.titre" type="text" id="titre" class="form-control" />
       </div>
       <div class="mb-3">
-        <label for="ingredients" class="form-label">Ingrédients</label>
+        <label for="ingredients" class="form-label">{{ $t("ingredients") }}</label>
         <input v-model="recette.ingredients" type="text" id="ingredients" class="form-control" />
       </div>
       <div class="mb-3">
+
         <label for="type" class="form-label fw-bold">Type</label>
         <select v-model="recette.type" class="form-select form-select-lg" id="type" required>
           <option value="entrée">Entrée</option>
@@ -23,8 +24,9 @@
         <select v-model="recette.categorie" class="form-select" id="categorie" required>
           <option v-for="cat in store.categories" :key="cat" :value="cat">{{ cat }}</option>
         </select>
+
       </div>
-      <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+      <button type="submit" class="btn btn-primary">{{ $t("save_recipe") }}</button>
     </form>
   </div>
 </template>

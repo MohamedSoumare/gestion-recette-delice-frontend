@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <h2>Liste des recettes</h2>
     <div class="d-flex justify-content-between mb-4">
       <div class="d-flex">
@@ -39,8 +40,10 @@
         </tr>
       </tbody>
     </table>
+
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed } from 'vue';

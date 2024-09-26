@@ -1,16 +1,31 @@
 <template>
-  <div class="container mt-5">
+
+  <div class="container">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      {{ $t("show details") }}
+    </button>
+
     
-    <div class="card">
-      <div class="card-header">
-        <h2>Détails de la recette</h2>
-      </div>
-      <div class="card-body">
-          <div v-if="recette">
-            <p><strong>Titre:</strong> {{ recette.titre }}</p>
-            <p><strong>Ingrédients:</strong> {{ recette.ingredients }}</p>
-            <p><strong>Type:</strong> {{ recette.type }}</p>
-            <p><strong>Catégorie:</strong> {{ recette.categorie }}</p>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">{{ $t("recipe details") }}</h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <div v-if="recette">
+              <p><strong>T{{ $t("title") }} :</strong> {{ recette.titre }}</p>
+              <p><strong>{{ $t("ingredients") }} :</strong> {{ recette.ingredients }}</p>
+              <p><strong>{{ $t("type") }} :</strong> {{ recette.type }}</p>
+            </div>
+            <div v-else>
+              <p>{{ $t("recipe not found") }}</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+
           </div>
       </div>
       <div class="card-footer text-end">
