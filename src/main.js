@@ -1,19 +1,3 @@
-
-
-
-
-
-
-const app = createApp(App);
-app.use(createPinia());
-
-app.use(router);
-app.mount('#app');
-
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
-import '@fortawesome/fontawesome-free/css/all.css';
-
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
@@ -24,6 +8,12 @@ import { createI18n } from "vue-i18n";
 import english from "./translate/english.json";
 import french from "./translate/french.json";
 
+// Importer les styles Bootstrap et FontAwesome
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.js";
+import '@fortawesome/fontawesome-free/css/all.css';
+
+// Configurer i18n pour la gestion des langues
 const i18n = createI18n({
   locale: "fr", // Langue par défaut
   fallbackLocale: "en", // Langue de repli
@@ -33,9 +23,13 @@ const i18n = createI18n({
   },
 });
 
+// Créer l'application Vue
 const app = createApp(App);
+
+// Utiliser Pinia, i18n, et le routeur
 app.use(createPinia());
 app.use(i18n);
 app.use(router);
-app.mount("#app");
 
+// Monter l'application
+app.mount("#app");
