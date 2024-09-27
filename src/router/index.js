@@ -5,6 +5,8 @@ import Ajout from '../components/recettes/AjoutRecette.vue'
 import Modifie from '../components/recettes/ModifieRecette.vue'
 import Liste from '../components/recettes/ListeRecette.vue'
 import Detail from '../components/recettes/DetailRecette.vue'
+import CategorieList from "../components/categories/ListeCategorie.vue";
+import AjoutCategorie from "../components/categories/AjoutCategorie.vue";
 
 const routes = [
     {
@@ -41,6 +43,17 @@ const routes = [
         path: "/recette/show/:id",
         name: 'detail-recette',
         component: Detail,
+    },
+
+    {
+        path: "/category-list/",
+        name: 'category-list',
+        component: CategorieList,
+    },
+    { 
+        path: "/categorie/new",
+        name: 'ajout-categorie',
+        component: AjoutCategorie,
     },
 ]
 
