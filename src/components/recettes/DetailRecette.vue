@@ -1,39 +1,36 @@
 <template>
-
-  <div class="container">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-      {{ $t("show details") }}
-    </button>
-
-    
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">{{ $t("recipe details") }}</h5>
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-          </div>
-          <div class="modal-body">
-            <div v-if="recette">
-              <p><strong>T{{ $t("title") }} :</strong> {{ recette.titre }}</p>
-              <p><strong>{{ $t("ingredients") }} :</strong> {{ recette.ingredients }}</p>
-              <p><strong>{{ $t("type") }} :</strong> {{ recette.type }}</p>
-            </div>
-            <div v-else>
-              <p>{{ $t("recipe not found") }}</p>
-            </div>
-          </div>
-          <div class="modal-footer">
-
-          </div>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>
+          <i class="fas fa-receipt me-2"></i>{{ $t("recipe details") }}
+        </h2>
+      </div>
+      <div class="card-body">
+        <div v-if="recette">
+          <p>
+            <strong><i class="fas fa-book me-1"></i>{{ $t("title") }}:</strong> {{ recette.titre }}
+          </p>
+          <p>
+            <strong><i class="fas fa-utensils me-1"></i>{{ $t("ingredients") }}:</strong> {{ recette.ingredients }}
+          </p>
+          <p>
+            <strong><i class="fas fa-tag me-1"></i>{{ $t("type") }}:</strong> {{ recette.type }}
+          </p>
+          <p>
+            <strong><i class="fas fa-list-alt me-1"></i>{{ $t("category") }}:</strong> {{ recette.categorie }}
+          </p>
+        </div>
       </div>
       <div class="card-footer text-end">
-        <router-link to="/recette-list" class="btn btn-primary">Retour à la liste</router-link>
+        <router-link to="/recette-list" class="btn btn-primary">
+          <i class="fas fa-arrow-left me-1"></i>{{ $t("back to the list") }}
+        </router-link>
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
