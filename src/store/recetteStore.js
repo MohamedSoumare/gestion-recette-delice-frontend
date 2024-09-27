@@ -18,7 +18,7 @@ export const useRecetteStore = defineStore("recetteStore", {
         categorie: "Italien"
       }
     ],
-    categories: ["Petit-déjeuner", "Italien", "Français", "Asiatique", "Végétarien"],
+    categories: [, "Italien", "Français", "Asiatique", "Végétarien"],
     nextId: 3  
   }),
   actions: {
@@ -72,6 +72,16 @@ export const useRecetteStore = defineStore("recetteStore", {
     //     }
     //   });
     // }
+
+    deleteCategorie(categorie) {
+      this.categories = this.categories.filter(c => c !== categorie);
+      this.recettes.forEach(recette => {
+        if (recette.categorie === categorie) {
+          recette.categorie = '';
+        }
+      });
+    }
+    
   
 }
 });
