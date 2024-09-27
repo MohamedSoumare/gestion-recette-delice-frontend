@@ -24,11 +24,22 @@
     "details": "Détails",
     "edit": "Modifier",
     "close": "Fermer",
+    "back to the list": "Retour à la liste",
     "delete": "Supprimer",
     "show details": "Afficher les détails",
     "recipe details": "Détails de la recette",
     "recipe not found": "Recette introuvable",
     "confirm_delete": "Êtes-vous sûr de vouloir supprimer cette recette ?",
     "delete_success": "Recette supprimée avec succès",
-    "save_recipe": "Enregistrer les modifications"
+    "save_recipe": "Enregistrer les modifications",
+    "search": "Rechercher",
+    "search_placeholder": "Rechercher une recette...",
+    "all_categories": "Toutes les catégories",
+    "addCategories": "Ajouter une catégories",
+    "category name": "Nom de la catégorie",
+    "enter the category name": "Entrer le nom de la catégorie",
+    "action": "Action",
+    "cancel": "Retour",
+    "discover": "Decouvrir",
+    "category": "Catégorie"
 }
