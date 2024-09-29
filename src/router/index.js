@@ -13,7 +13,9 @@ const routes = [
         path: '/ajout-recette',
         name: 'ajout-recette',
         component: Ajout, 
-        },
+    },
+
+
     {
         path: '/recipe-list',
         name: 'recette-list',
