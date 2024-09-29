@@ -1,25 +1,27 @@
 <template>
-    <div class="container">
-      <h2>{{ $t("addCategories") }}</h2>
-      <form @submit.prevent="onSubmit">
-        <div class="mb-3">
-          <label for="nomCategorie" class="form-label">{{ $t("category name") }}</label>
-          <input
-            type="text"
-            id="nomCategorie"
-            v-model="nomCategorie"
-            placeholder=""
-            class="form-control custom-input" 
-          />
+    <div class=" p-4 w-50 mx-auto ">
+        <div class="container">
+        <h2>{{ $t("add a category") }}</h2>
+        <form @submit.prevent="onSubmit">
+            <div class="mb-3">
+            <label for="nomCategorie" class="form-label">{{ $t("category_name") }}</label>
+            <input
+                type="text"
+                id="nomCategorie"
+                v-model="nomCategorie"
+                placeholder=""
+                class="form-control custom-input" 
+            />
+            </div>
+            <button class="btn btn-primary me-2" type="submit"> 
+            <i class="fas fa-plus"></i> {{ $t("submit") }}
+            </button>
+            <button class="btn btn-secondary" type="button" @click="onAnotherAction">
+            <i class="fas fa-undo"></i> {{ $t("cancel") }}
+            </button>
+        </form>
         </div>
-        <button class="btn btn-primary me-2" type="submit"> 
-          <i class="fas fa-plus"></i> {{ $t("submit") }}
-        </button>
-        <button class="btn btn-secondary" type="button" @click="onAnotherAction">
-          <i class="fas fa-undo"></i> {{ $t("cancel") }}
-        </button>
-      </form>
-    </div>
+    </div>    
   </template>
   
   <script setup>
@@ -52,3 +54,13 @@
   }
   </style>
   
+  <style scoped>
+
+
+.custom-input {
+  width: 80%; 
+}
+.me-2 {
+  margin-right: 0.5rem; 
+}
+</style>
