@@ -36,10 +36,12 @@
     "search": "Search",
     "search_placeholder": "Search for a recipe...",
     "all_categories": "All categories",
-    "addCategories": "AddCategories",
+    "add a category": "Add a category",
+    "category list": "Category list",
     "enter the category name": "Enter the category name",
-    "category name": "Category name",
+    "category_name": "Category name",
     "action": "Action",
     "cancel": "Cancel",
+    "new_category": "New category",
     "category": "Category"
 }
