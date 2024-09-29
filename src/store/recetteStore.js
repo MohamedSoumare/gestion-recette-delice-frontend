@@ -8,7 +8,7 @@ export const useRecetteStore = defineStore("recetteStore", {
         titre: "Crêpe Nutella",
         ingredients: "Farine, lait, oeuf, beurre, sucre",
         type: "Dessert",
-        categorie: "Petit-déjeuner"
+        categorie: "Asiatique"
       },
       {
         id: 2,
@@ -18,7 +18,7 @@ export const useRecetteStore = defineStore("recetteStore", {
         categorie: "Italien"
       }
     ],
-    categories: [, "Italien", "Français", "Asiatique", "Végétarien"],
+    categories: ["Italien", "Français", "Asiatique", "Végétarien"],
     nextId: 3  
   }),
   actions: {
