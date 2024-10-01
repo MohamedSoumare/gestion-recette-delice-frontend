@@ -7,6 +7,7 @@ import Liste from '../components/recettes/ListeRecette.vue'
 import Detail from '../components/recettes/DetailRecette.vue'
 import CategorieList from "../components/categories/ListeCategorie.vue";
 import AjoutCategorie from "../components/categories/AjoutCategorie.vue";
+import EditCategorie from "../components/categories/EditCategorie.vue";
 
 const routes = [
     {
@@ -14,7 +15,6 @@ const routes = [
         name: 'ajout-recette',
         component: Ajout, 
     },
-
 
     {
         path: '/recipe-list',
@@ -46,7 +46,6 @@ const routes = [
         name: 'detail-recette',
         component: Detail,
     },
-
     {
         path: "/category-list/",
         name: 'category-list',
@@ -57,6 +56,11 @@ const routes = [
         name: 'ajout-categorie',
         component: AjoutCategorie,
     },
+    {
+        path: '/categorie/edit/:id',
+        name: 'EditCategorie',
+        component: EditCategorie,
+      },
 ]
 
 const router = createRouter({

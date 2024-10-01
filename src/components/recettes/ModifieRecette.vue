@@ -1,113 +1,70 @@
-<!-- <template>
-  <div class=" p-4 w-50 mx-auto ">
-      <div class="container">
-        <h2>
-          <i class="fas fa-edit me-2"></i>{{ $t("editRecipe") }}
-        </h2>
-        <form @submit.prevent="updateRecette">
-          <div class="mb-3">
-            <label for="titre" class="form-label">
-              <i class="fas fa-book me-1"></i>{{ $t("title") }}
-            </label>
-            <input v-model="recette.titre" type="text" id="titre" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label for="ingredients" class="form-label">
-              <i class="fas fa-utensils me-1"></i>{{ $t("ingredients") }}
-            </label>
-            <input v-model="recette.ingredients" type="text" id="ingredients" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label for="type" class="form-label fw-bold">
-              <i class="fas fa-tags me-1"></i>{{ $t("type") }}
-            </label>
-            <select v-model="recette.type" class="form-select form-select-lg" id="type" required>
-              <option value="entrée">{{ $t("starter") }}</option>
-              <option value="plat">{{ $t("main") }}</option>
-              <option value="dessert">{{ $t("dessert") }}</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="categorie" class="form-label">
-              <i class="fas fa-list-alt me-1"></i>{{ $t("category") }}
-            </label>
-            <select v-model="recette.categorie" class="form-select" id="categorie" required>
-              <option v-for="cat in store.categories" :key="cat" :value="cat">{{ cat }}</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-save me-1"></i>{{ $t("save_recipe") }}
-          </button>
-        </form>
-      </div>
-    </div>    
-</template> -->
-
-
 <template>
   <div class="p-4 w-50 mx-auto">
     <div class="container">
-      <h2>
-        <i class="fas fa-edit me-2"></i>{{ $t("editRecipe") }}
-      </h2>
+      <h2>{{ $t("editRecipe") }}</h2>
       <form @submit.prevent="updateRecette">
+       
         <div class="mb-3">
-          <label for="titre" class="form-label">
-            <i class="fas fa-book me-1"></i>{{ $t("title") }}
-          </label>
-          <input v-model="recette.titre" type="text" id="titre" class="form-control w-100" />
+          <label for="titre" class="form-label">{{ $t("title") }}</label>
+          <input type="text" v-model="titre" id="titre" class="form-control" required />
         </div>
         <div class="mb-3">
-          <label for="ingredients" class="form-label">
-            <i class="fas fa-utensils me-1"></i>{{ $t("ingredients") }}
-          </label>
-          <input v-model="recette.ingredients" type="text" id="ingredients" class="form-control w-100" />
+          <label for="ingredients" class="form-label">{{ $t("ingredients") }}</label>
+          <input type="text" v-model="ingredients" id="ingredients" class="form-control" required />
         </div>
         <div class="mb-3">
-          <label for="type" class="form-label fw-bold">
-            <i class="fas fa-tags me-1"></i>{{ $t("type") }}
-          </label>
-          <select v-model="recette.type" class="form-select w-100" id="type" required>
-            <option value="entrée">{{ $t("starter") }}</option>
-            <option value="plat">{{ $t("main") }}</option>
+          <label for="type" class="form-label">{{ $t("type") }}</label>
+          <select v-model="type" class="form-select">
             <option value="dessert">{{ $t("dessert") }}</option>
+            <option value="entree">{{ $t("starter") }}</option>
+            <option value="plat">{{ $t("main") }}</option>
           </select>
         </div>
         <div class="mb-3">
-          <label for="categorie" class="form-label">
-            <i class="fas fa-list-alt me-1"></i>{{ $t("category") }}
-          </label>
-          <select v-model="recette.categorie" class="form-select w-100" id="categorie" required>
-            <option v-for="cat in store.categories" :key="cat" :value="cat">{{ cat }}</option>
+          <label for="categorie" class="form-label">{{ $t("category") }}</label>
+          <select v-model="categorie" class="form-select">
+            <option v-for="cat in store.categories" :key="cat.id" :value="cat.name">{{ cat.name }}</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-success">
-          <i class="fas fa-save me-1"></i>{{ $t("save_recipe") }}
-        </button>
+
+        <button type="submit" class="btn btn-success">{{ $t("save_recipe") }}</button>
       </form>
     </div>
-  </div>    
+  </div>
 </template>
 
 <script setup>
-import { useRouter, useRoute } from 'vue-router';
 import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useRecetteStore } from '../../store/recetteStore';
 
-const store = useRecetteStore(); 
+const store = useRecetteStore();
+const router = useRouter();
 const route = useRoute();
-const router = useRouter(); 
-const recette = ref({ titre: '', ingredients: '', type: '', categorie: '' }); 
 
-onMounted(() => {
+const titre = ref('');
+const ingredients = ref('');
+const type = ref('');
+const categorie = ref('');
+
+onMounted(async () => {
+  await store.fetchCategories();
   const recetteExistante = store.getById(Number(route.params.id));
   if (recetteExistante) {
-    recette.value = { ...recetteExistante }; 
+    titre.value = recetteExistante.titre;
+    ingredients.value = recetteExistante.ingredients;
+    type.value = recetteExistante.type;
+    categorie.value = recetteExistante.categorie;
   }
 });
-
 const updateRecette = () => {
-  store.edit(Number(route.params.id), recette.value); 
-  router.push('/recette-list'); 
+  store.edit(Number(route.params.id), {
+    titre: titre.value,
+    ingredients: ingredients.value,
+    type: type.value,
+    categorie: categorie.value,
+  });
+  router.push('/recette-list');
 };
+
 </script>

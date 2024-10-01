@@ -16,7 +16,7 @@
             <button class="btn btn-primary me-2" type="submit"> 
             <i class="fas fa-plus"></i> {{ $t("submit") }}
             </button>
-            <button class="btn btn-secondary" type="button" @click="onAnotherAction">
+            <button class="btn btn-secondary" type="button" @click="onCancelAction">
             <i class="fas fa-undo"></i> {{ $t("cancel") }}
             </button>
         </form>
@@ -30,30 +30,20 @@
   import { useRouter } from 'vue-router';
   
   const store = useRecetteStore();
-  const router = useRouter(); // Use Vue Router for navigation
-  const nomCategorie = ref(''); // State for category name
+  const router = useRouter(); 
+  const nomCategorie = ref(''); 
   
   const onSubmit = () => {
-    store.addCategorie(nomCategorie.value); // Add category to store
-    nomCategorie.value = ''; // Reset input field
-    router.push('/category-list'); // Navigate to the list of categories
+    store.addCategorie(nomCategorie.value);
+    nomCategorie.value = ''; 
+    router.push('/category-list'); 
   };
   
-  const onAnotherAction = () => {
-    router.push('/category-list'); // Navigate back to the category list
+  const onCancelAction = () => {
+    router.push('/category-list'); 
   };
   </script>
-  
-  <style scoped>
-  .custom-input {
-    width: 80%; /* Adjust the width as needed */
-  }
-  
-  .me-2 {
-    margin-right: 0.5rem; /* Space between buttons */
-  }
-  </style>
-  
+    
   <style scoped>
 
 

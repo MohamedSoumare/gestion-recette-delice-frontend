@@ -1,87 +1,97 @@
-import { defineStore } from "pinia";
+// recetteStore.js
+import { defineStore } from 'pinia';
+import axios from 'axios';
 
-export const useRecetteStore = defineStore("recetteStore", {
+export const useRecetteStore = defineStore('recetteStore', {
   state: () => ({
-    recettes: [
-      {
-        id: 1,
-        titre: "Crêpe Nutella",
-        ingredients: "Farine, lait, oeuf, beurre, sucre",
-        type: "Dessert",
-        categorie: "Asiatique"
-      },
-      {
-        id: 2,
-        titre: "Lasagne",
-        ingredients: "Viande, tomate, feuille de lasagnes, béchamel",
-        type: "Plat",
-        categorie: "Italien"
-      }
-    ],
-    categories: ["Italien", "Français", "Asiatique", "Végétarien"],
-    nextId: 3  
+    recettes: [],
+    categories: [],
+    nextId: 1,  
   }),
-  actions: {
-    add(newRecette) {
-      this.recettes.push({
-        id: this.nextId++,  
-        ...newRecette
-      });
-    },
-    edit(id, recetteModifiee) {
-      const index = this.recettes.findIndex((recette) => recette.id === id);
-      if (index !== -1) {
-        this.recettes[index] = { ...recetteModifiee, id };
-      }
-    },
-    destroy(id) {
-      this.recettes = this.recettes.filter((recette) => recette.id !== id);
-    },
-    getById(id) {
-      return this.recettes.find((r) => r.id === id);
-    },
-    searchRecettes(query, categorie) {
-      return this.recettes.filter(recette => {
-        const matchTitre = recette.titre.toLowerCase().includes(query.toLowerCase());
-        const matchCategorie = categorie === '' || recette.categorie === categorie;
-        return matchTitre && matchCategorie;
-      });
-    },
-    addCategorie(newCategorie) {
-      if (!this.categories.includes(newCategorie)) {
-        this.categories.push(newCategorie);
-      }
-    },
-    updateCategorie(oldCategorie, newCategorie) {
-      const index = this.categories.indexOf(oldCategorie);
-      if (index !== -1) {
-        this.categories[index] = newCategorie;
-        this.recettes.forEach(recette => {
-          if (recette.categorie === oldCategorie) {
-            recette.categorie = newCategorie;
-          }   
-        });
-      }
-    },
-  
-    // deleteCategorie(categorie) {
-    //   this.categories = this.categories.filter(c => c !== categorie);
-    //   this.recettes.forEach(recette => {
-    //     if (recette.categorie === categorie) {
-    //       recette.categorie = '';
-    //     }
-    //   });
-    // }
 
-    deleteCategorie(categorie) {
-      this.categories = this.categories.filter(c => c !== categorie);
-      this.recettes.forEach(recette => {
-        if (recette.categorie === categorie) {
-          recette.categorie = '';
-        }
-      });
-    }
+  actions: {
+   
+    async fetchRecettes() {
+      try {
+          const response = await axios.get('http://localhost:3090/api/recipes');
+          console.log('Recettes:', response.data);
+          this.recettes = response.data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des recettes:', error);
+      }
+    },
+
+    async add(recette) {
+      try {
+        await axios.post('http://localhost:3090/api/recipes/add', recette);
+        await this.fetchRecettes(); 
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout de la recette', error);
+      }
+    },
     
-  
-}
+    async edit(id, updatedRecette) {
+      try {
+        await axios.put(`http://localhost:3090/api/recettes/${id}`, updatedRecette);
+        await this.fetchRecettes(); 
+      } catch (error) {
+        console.error('Erreur lors de la modification de la recette', error);
+      }
+    },
+     
+    async destroy(id) {
+      try {
+        await axios.delete(`http://localhost:3090/api/recipes/delete/${id}`);
+        const resp = await this.fetchRecettes(); 
+      } catch (error) {
+        console.error('Erreur lors de la suppression de la recette:', error);
+      }
+    },
+
+    async fetchCategories() {
+      try {
+        const response = await axios.get('http://localhost:3090/api/categories');
+        this.categories = response.data;
+      } catch (error) {
+        console.error("Erreur lors de la récupération des catégories:", error);
+      }
+    },
+    
+    async addCategorie(newCategorie) {
+      try {
+        const response = await axios.post('http://localhost:3090/api/categories/add', newCategorie);
+        this.categories.push(response.data);
+      } catch (error) {
+        console.error("Erreur lors de l'ajout de la catégorie:", error);
+      }
+    },
+    
+    async updateCategorie(id, updatedCategorieName) {
+      try {
+        const response = await axios.put(`http://localhost:3090/api/categories/edit/${id}`, { name: updatedCategorieName });
+        const index = this.categories.findIndex(categorie => categorie.id === id);
+        if (index !== -1) {
+          this.categories[index].name = updatedCategorieName;
+        }
+        return response.data;
+      } catch (error) {
+        console.error("Erreur lors de la modification de la catégorie:", error);
+      }
+    },
+    
+    async deleteCategorie(id) {
+      try {
+        await axios.delete(`http://localhost:3090/api/categories/delete/${id}`);
+        this.categories = this.categories.filter(categorie => categorie.id !== id);
+      } catch (error) {
+        console.error("Erreur lors de la suppression de la catégorie:", error);
+      }
+    },
+  },        
+
+  getters: {
+    getById: (state) => {
+      return (id) => state.recettes.find((recette) => recette.id === id);
+    },
+  },
 });

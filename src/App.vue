@@ -11,15 +11,15 @@
             <li class="nav-item mx-3">
               <router-link class="nav-link" to="/">{{ $t("home") }}</router-link>
             </li>
-            <li class="nav-item mx-3">
+            <!-- <li class="nav-item mx-3">
               <router-link class="nav-link" to="/recette/new">{{ $t("addRecipe") }}</router-link>
-            </li>
+            </li> -->
             <li class="nav-item mx-3">
               <router-link class="nav-link" to="/recette-list">{{ $t("recipe_list") }}</router-link>
             </li>
-            <li class="nav-item mx-3">
+            <!-- <li class="nav-item mx-3">
               <router-link class="nav-link" to="/categorie/new">{{ $t("AjoutCategorie") }}</router-link>
-            </li>
+            </li> -->
             <li class="nav-item mx-3">
               <router-link class="nav-link" to="/category-list">{{ $t("ListeCategorie") }}</router-link>
             </li>
