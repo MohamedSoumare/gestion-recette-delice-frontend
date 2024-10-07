@@ -3,7 +3,7 @@ import App from "./App.vue";
 import { createPinia } from "pinia";
 import router from "./router";
 import { createI18n } from "vue-i18n";
-
+import axios from "axios"
 // Importer les fichiers de traduction
 import english from "./translate/english.json";
 import french from "./translate/french.json";
@@ -30,6 +30,6 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(i18n);
 app.use(router);
-
+app.use(axios);
 // Monter l'application
 app.mount("#app");

@@ -8,10 +8,13 @@
           class="form-control form-control-sm me-2"
           :placeholder="$t('search_placeholder')"
         />
-        <select v-model="selectedCategorie" class="form-select form-select-sm me-2">
-          <option value="">{{ $t("all_categories") }}</option>
-          <option v-for="cat in store.categories" :key="cat" :value="cat">{{ cat.name }}</option>
-        </select>
+    <select v-model="selectedCategorie" class="form-select form-select-sm me-2">
+      <option value="">{{ $t("all_categories") }}</option>
+      <option v-for="cat in store.categories" :key="cat.id" :value="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+
         <button @click="searchRecettes" class="btn btn-success btn-sm">
           <i class="fas fa-search me-1"></i>{{ $t("search") }}
         </button>
@@ -25,14 +28,13 @@
       <div class="col-md-4 mb-4" v-for="item in filteredRecettes" :key="item.id">
         <div class="card h-100">
           <div class="card-body">
-            <h5 class="card-title">{{ item.titre }}</h5>
-            <p class="card-text"><strong>{{ $t("ingredients") }}:</strong> {{ item.ingredient }}</p>
-            <p class="card-text"><strong>{{ $t("type") }}:</strong> {{ item.type }}</p>
+            <h5 class="card-title"><strong>{{ $t("title") }} :</strong> {{ item.title }}</h5>
+            <p class="card-text"><strong>{{ $t("ingredients") }} :</strong> {{ item.ingredient }}</p>
+            <p class="card-text"><strong>{{ $t("type") }} :</strong> {{ item.type }}</p>
             <p class="card-text">
-              <strong>{{ $t("category") }}:</strong> 
-              {{ item.categorie ? item.categorie.name : $t('no_category') }}
+              <strong>{{ $t("category") }} :</strong> 
+              {{ item.categorie_name || $t('no_category') }}
             </p>
-
           </div>
           <div class="card-footer d-flex justify-content-between">
             <router-link :to="`/recette/show/${item.id}`" class="btn btn-info btn-sm">
@@ -60,28 +62,36 @@ const searchQuery = ref('');
 const selectedCategorie = ref('');
 const filteredRecettes = ref([]);
 
-const searchRecettes = () => {
-  filteredRecettes.value = store.recettes.filter((recette) => {
-    const matchTitre = recette.titre.toLowerCase().includes(searchQuery.value.toLowerCase());
-    const matchCategorie = selectedCategorie.value === '' || recette.categorie === selectedCategorie.value;
-    return matchTitre && matchCategorie;
-  });
-};
-
 const destroy = async (id) => {
   try {
-    const verify = window.confirm("Etes-vous sûr de vouloir supprimer cette recette ?");
-    if (verify) {
+    const confirmDeletion = window.confirm("Etes-vous sûr de vouloir supprimer cette recette ?");
+    if (confirmDeletion) {
       await store.destroy(id);
       await store.fetchRecettes(); 
-      searchRecettes(); 
+      filteredRecettes.value = store.recettes; 
     }
   } catch (error) {
     console.error(error.message);
   }
 };
+const searchRecettes = () => {
+  // Filtre les recettes par titre et catégorie
+  const newFilteredRecettes = store.recettes.filter((recette) => {
+    // Vérifie si le titre de la recette contient la requête de recherche
+    const matchTitre = recette.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+    
+    // Vérifie si la catégorie correspond à la catégorie sélectionnée ou si "toutes les catégories" est sélectionné
+    const matchCategorie = selectedCategorie.value === '' || recette.categorie_id === selectedCategorie.value;
+    
+    // Retourne les recettes qui correspondent au titre et à la catégorie
+    return matchTitre && matchCategorie;
+  });
 
-// Récupération des données lors du montage du composant
+  if (JSON.stringify(newFilteredRecettes) !== JSON.stringify(filteredRecettes.value)) {
+    filteredRecettes.value = newFilteredRecettes;
+  }
+};
+
 onMounted(async () => {
   await store.fetchRecettes(); 
   await store.fetchCategories(); 

@@ -10,7 +10,7 @@
         </div>
         <div class="mb-3">
           <label for="ingredients" class="form-label">{{ $t("ingredients") }}</label>
-          <input type="text" v-model="ingredients" id="ingredients" class="form-control" required />
+          <input type="text" v-model="ingredient" id="ingredient" class="form-control" required />
         </div>
         <div class="mb-3">
           <label for="type" class="form-label">{{ $t("type") }}</label>
@@ -26,7 +26,9 @@
             <option v-for="cat in store.categories" :key="cat.id" :value="cat.name">{{ cat.name }}</option>
           </select>
         </div>
-
+        <router-link to="/recette-list" class="btn btn-secondary mb-3">
+          <i class="fas fa-arrow-left"></i> 
+        </router-link>
         <button type="submit" class="btn btn-success">{{ $t("save_recipe") }}</button>
       </form>
     </div>
@@ -43,7 +45,7 @@ const router = useRouter();
 const route = useRoute();
 
 const titre = ref('');
-const ingredients = ref('');
+const ingredient = ref('');
 const type = ref('');
 const categorie = ref('');
 
@@ -52,7 +54,7 @@ onMounted(async () => {
   const recetteExistante = store.getById(Number(route.params.id));
   if (recetteExistante) {
     titre.value = recetteExistante.titre;
-    ingredients.value = recetteExistante.ingredients;
+    ingredient.value = recetteExistante.ingredient;
     type.value = recetteExistante.type;
     categorie.value = recetteExistante.categorie;
   }
@@ -60,7 +62,7 @@ onMounted(async () => {
 const updateRecette = () => {
   store.edit(Number(route.params.id), {
     titre: titre.value,
-    ingredients: ingredients.value,
+    ingredient: ingredient.value,
     type: type.value,
     categorie: categorie.value,
   });
