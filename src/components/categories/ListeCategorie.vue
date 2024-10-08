@@ -33,9 +33,9 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRecetteStore } from "../../store/recetteStore";
+import { useCategorieStore } from "../../store/categorieStore"; 
 
-const store = useRecetteStore();
+const store = useCategorieStore();
 const categories = ref([]);
 
 onMounted(async () => {

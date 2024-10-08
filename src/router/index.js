@@ -47,15 +47,16 @@ const routes = [
     component: AjoutCategorie,
   },
   {
-    path: '/categorie/details/:id', 
-    name: 'details-categorie',
-    component: DetailsCategorie,
+    path: '/categorie/details/:id',
+    name: 'CategoryDetails',
+    component: DetailsCategorie
   },
   {
     path: '/categorie/edit/:id',
     name: 'edit-categorie',
     component: EditCategorie,
   },
+  
 ];
 
 const router = createRouter({

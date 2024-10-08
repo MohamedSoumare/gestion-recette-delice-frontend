@@ -1,68 +1,48 @@
 <template>
-    <div class="category-details-container p-4 w-50 mx-auto">
-      <h2>{{ $t("show details") }}</h2>
-      <div v-if="categorie">
-        <h3>{{ categorie.name }}</h3>
-        <p>{{ $t("category_id") }}: {{ categorie.id }}</p>
-        <div class="actions mt-4">
-          <button class="btn btn-primary me-2" @click="editCategory">
-            <i class="fas fa-edit"></i> {{ $t("edit") }}
-          </button>
-          <button class="btn btn-danger" @click="deleteCategory">
-            <i class="fas fa-trash"></i> {{ $t("delete") }}
-          </button>
+  <div class="category-details-container p-4 w-50 mx-auto">
+    <h2>{{ $t("show_details") }}</h2>  
+    <div v-if="categorie">
+      <div class="card h-100">
+        <div class="card-body">
+          <!-- Affichage du nom de la catégorie -->
+          <h5 class="card-title">
+            <strong>{{ $t("title") }} :</strong> {{ categorie.name }}
+          </h5>
+      
         </div>
       </div>
-      <div v-else>
-        <p>{{ $t("category_not_found") }}</p>
-      </div>
+
+      <!-- Lien de retour à la liste des catégories -->
+      <router-link to="/category-list" class="btn btn-primary mt-3">
+        {{ $t("category_list") }}
+      </router-link>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from "vue";
-  import { useRouter, useRoute } from "vue-router";
-  import { useRecetteStore } from "../../store/recetteStore";
-  
-  const router = useRouter();
-  const route = useRoute();
-  const store = useRecetteStore();
-  const categorie = ref(null);
-  
-  onMounted(async () => {
-    const categoryId = route.params.id;
-    // Ensure categories are loaded before fetching specific category
-    if (!store.categories.length) {
-      await store.fetchCategories();
-    }
-    categorie.value = store.getCategorieById(categoryId);
-  });
-  
-  const editCategory = () => {
-    router.push(`/edit-category/${categorie.value.id}`);
-  };
-  
-  const deleteCategory = async () => {
-    const confirmation = confirm("Voulez-vous vraiment supprimer cette catégorie ?");
-    if (confirmation) {
-      try {
-        await store.deleteCategorie(categorie.value.id);
-        router.push("/category-list"); // Redirect after deletion
-      } catch (error) {
-        console.error("Erreur lors de la suppression de la catégorie", error);
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .category-details-container {
-    max-width: 600px;
-    margin: auto;
-  }
-  
-  .actions button {
-    margin-right: 10px;
-  }
-  </style>
-  
+
+    <!-- Si la catégorie n'a pas été trouvée -->
+    <div v-else>
+      <p>{{ $t("category_not_found") }}</p>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+import { useCategorieStore } from "../../store/categorieStore";
+
+// Variables nécessaires
+const route = useRoute();
+const store = useCategorieStore();  // Utilisation du store pour accéder aux catégories
+const categorie = ref(null);  // Initialise la catégorie à null
+
+// Lorsque le composant est monté, on récupère les détails de la catégorie
+onMounted(async () => {
+  const categoryId = route.params.id;  // On récupère l'ID de la catégorie depuis l'URL
+  await store.fetchCategorieById(categoryId);  // Charge les détails de la catégorie via le store
+});
+
+// Utilisation de watchEffect pour mettre à jour la catégorie lorsque les données du store changent
+watchEffect(() => {
+  categorie.value = store.selectedCategorie;  // Met à jour la catégorie avec celle sélectionnée
+});
+</script>

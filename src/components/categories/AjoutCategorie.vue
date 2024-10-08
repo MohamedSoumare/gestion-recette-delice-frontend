@@ -25,22 +25,23 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useRecetteStore } from "../../store/recetteStore";
-
+import { useCategorieStore } from "../../store/categorieStore"; 
 
 const nomCategorie = ref("");
-const store = useRecetteStore();
+const store = useCategorieStore(); // Correct usage
 const router = useRouter();
+
 const onSubmit = async () => {
   if (nomCategorie.value) {
     try {
-      await store.addCategorie({ name: nomCategorie.value });
-      router.push("/category-list"); // Redirection vers la liste des catégories
+      await store.addCategorie({ nom: nomCategorie.value }); 
+      router.push("/category-list");
     } catch (error) {
       console.error("Erreur lors de l'ajout de la catégorie", error);
     }
   }
 };
+
 const onCancel = () => {
   router.push("/category-list");
 };

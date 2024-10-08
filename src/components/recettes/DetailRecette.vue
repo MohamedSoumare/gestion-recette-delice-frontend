@@ -1,60 +1,66 @@
 <template>
-  <div class="container mt-5">
-    <div class="card">
-      <div class="card-header">
-        <h2>
-          <i class="fas fa-receipt me-2"></i>{{ $t("recipe details") }}
-        </h2>
-      </div>
-      <div class="card-body">
-        <div v-if="recette">
-          <p>
-            <strong><i class="fas fa-book me-1"></i>{{ $t("title") }}:</strong> {{ recette.titre }}
-          </p>
-          <p>
-            <strong><i class="fas fa-utensils me-1"></i>{{ $t("ingredients") }}:</strong> {{ recette.ingredients }}
-          </p>
-          <p>
-            <strong><i class="fas fa-tag me-1"></i>{{ $t("type") }}:</strong> {{ recette.type }}
-          </p>
-          <p>
-            <strong><i class="fas fa-list-alt me-1"></i>{{ $t("category") }}:</strong> {{ recette.categorie }}
-          </p>
-        </div>
-      </div>
-      <div class="card-footer text-end">
-        <router-link to="/recette-list" class="btn btn-primary">
-          <i class="fas fa-arrow-left me-1"></i>{{ $t("back to the list") }}
+  <div class="category-details-container card shadow-sm p-4 w-50 mx-auto mt-5">
+    <h2 class="text-center mb-4">{{ $t("show_details") }}</h2>  
+    <div v-if="categorie">
+          <p><strong>{{ $t("id") }}:</strong> {{ categorie.id }}</p>
+      
+        <h3 class="category-name text-primary">{{ $t("title") }}:{{ categorie.name }}</h3> 
+      
+      <div class="text-center mt-4">
+        <router-link to="/category-list" class="btn btn-primary">
+          {{ $t("category_list") }}
         </router-link>
       </div>
+    </div>
+
+    <div v-else>
+      <p class="text-danger">{{ $t("category_not_found") }}</p>
     </div>
   </div>
 </template>
 
-
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRecetteStore } from '../../store/recetteStore';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+import { useCategorieStore } from "../../store/categorieStore";
 
-const store = useRecetteStore(); 
-const route = useRoute(); 
-const recette = ref(null); 
+const route = useRoute();
+const store = useCategorieStore();
+const categorie = ref(null);  
 
-onMounted(() => {
-  const recetteExistante = store.getById(Number(route.params.id)); 
-  if (recetteExistante) {
-    recette.value = recetteExistante; 
-  }
+onMounted(async () => {
+  const categoryId = route.params.id; 
+  await store.fetchCategorieById(categoryId);  
+});
+
+watchEffect(() => {
+  categorie.value = store.selectedCategorie; 
 });
 </script>
 
 <style scoped>
-.container {
-  max-width: 800px;
+.category-details-container {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card {
-  margin-top: 20px;
+.category-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.text-primary {
+  color: #007bff;
+}
+
+.text-danger {
+  color: #dc3545;
+}
+
+.text-center {
+  text-align: center;
 }
 </style>

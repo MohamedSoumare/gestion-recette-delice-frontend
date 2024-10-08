@@ -5,12 +5,13 @@
       <div class="mb-3">
         <label for="nomCategorie" class="form-label">{{ $t("category_name") }}</label>
         <input
-          type="text"
-          id="nomCategorie"
-          v-model="nomCategorie"
-          placeholder="Modifier le nom de la catégorie"
-          class="form-control"
-        />
+  type="text"
+  id="nomCategorie"
+  v-model="nomCategorie"
+  placeholder="Modifier le nom de la catégorie"
+  class="form-control"
+/>
+
       </div>
       <button class="btn btn-primary me-2" type="submit">
         <i class="fas fa-save"></i> {{ $t("save_changes") }}
@@ -25,37 +26,35 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useRecetteStore } from "../../store/recetteStore";
+import { useCategorieStore } from "../../store/categorieStore"; 
 
-// Refs et store
 const nomCategorie = ref("");
 const categoryId = ref(null);
-const store = useRecetteStore();
+const store = useCategorieStore(); 
 const router = useRouter();
 const route = useRoute();
 
-// Charger les données de la catégorie lors du montage
 onMounted(async () => {
-  categoryId.value = route.params.id; // Obtenir l'ID de la catégorie à partir de la route
-  const categorie = store.categories.find((c) => c.id === categoryId.value);
+  categoryId.value = route.params.id;
+  await store.fetchCategorieById(categoryId.value);  
+  
+  const categorie = store.selectedCategorie;
   if (categorie) {
-    nomCategorie.value = categorie.name; // Remplir le champ avec le nom existant
+    nomCategorie.value = categorie.nom; 
   } else {
     console.error("Catégorie non trouvée");
   }
 });
 
-// Fonction pour gérer la soumission du formulaire
 const onSubmit = async () => {
   try {
-    await store.updateCategorie(categoryId.value, { name: nomCategorie.value });
-    router.push("/category-list"); // Redirection vers la liste des catégories
+   
+    await store.updateCategorie(categoryId.value, { nom: nomCategorie.value });
+    router.push("/category-list");  
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la catégorie", error);
   }
 };
-
-// Fonction pour annuler et revenir à la liste
 const onCancel = () => {
   router.push("/category-list");
 };
