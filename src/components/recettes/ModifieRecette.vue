@@ -1,72 +1,107 @@
 <template>
   <div class="p-4 w-50 mx-auto">
     <div class="container">
-      <h2>{{ $t("editRecipe") }}</h2>
-      <form @submit.prevent="updateRecette">
-       
+      <h3><i class="fas fa-edit me-2"></i>{{ $t("editRecipe") }}</h3>
+      <form @submit.prevent="updateRecipe">
         <div class="mb-3">
-          <label for="titre" class="form-label">{{ $t("title") }}</label>
-          <input type="text" v-model="titre" id="titre" class="form-control" required />
+          <label for="title" class="form-label">{{ $t("title") }}</label>
+          <input
+            type="text"
+            v-model="title"
+            id="title"
+            class="form-control"
+            required
+          />
         </div>
+
         <div class="mb-3">
           <label for="ingredients" class="form-label">{{ $t("ingredients") }}</label>
-          <input type="text" v-model="ingredient" id="ingredient" class="form-control" required />
+          <input
+            type="text"
+            v-model="ingredients"
+            id="ingredients"
+            class="form-control"
+            required
+          />
         </div>
+
         <div class="mb-3">
           <label for="type" class="form-label">{{ $t("type") }}</label>
-          <select v-model="type" class="form-select">
+          <select v-model="type" id="type" class="form-select" required>
             <option value="dessert">{{ $t("dessert") }}</option>
             <option value="entree">{{ $t("starter") }}</option>
             <option value="plat">{{ $t("main") }}</option>
           </select>
         </div>
+
         <div class="mb-3">
           <label for="categorie" class="form-label">{{ $t("category") }}</label>
-          <select v-model="categorie" class="form-select">
-            <option v-for="cat in store.categories" :key="cat.id" :value="cat.name">{{ cat.name }}</option>
+          <select v-model="categorie" id="categorie" class="form-select" required>
+            <option
+              v-for="cat in store.categories"
+              :key="cat.id"
+              :value="cat.id"
+            >
+              {{ cat.name }}
+            </option>
           </select>
         </div>
-        <router-link to="/recette-list" class="btn btn-secondary mb-3">
-          <i class="fas fa-arrow-left"></i> 
-        </router-link>
-        <button type="submit" class="btn btn-success">{{ $t("save_recipe") }}</button>
+
+        <button type="submit" class="btn btn-success">
+          {{ $t("update") }}
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useRecetteStore } from '../../store/recetteStore';
+import { ref, onMounted } from "vue";
+import { useRecetteStore } from "../../store/recetteStore";
+import { useRoute, useRouter } from "vue-router";
 
 const store = useRecetteStore();
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
-const titre = ref('');
-const ingredient = ref('');
-const type = ref('');
-const categorie = ref('');
+const title = ref("");
+const ingredients = ref("");
+const type = ref("");
+const categorie = ref("");
+
+const id = route.params.id;
+
+const loadRecipe = async () => {
+  const recipe = await store.getById(id);
+  if (recipe) {
+    title.value = recipe.title;
+    ingredients.value = recipe.ingredient;
+    type.value = recipe.type;
+    categorie.value = recipe.categorie_id;
+  }
+};
+
+const updateRecipe = async () => {
+  try {
+    await store.update(id, {
+      title: title.value,
+      ingredient: ingredients.value,
+      type: type.value,
+      categorie_id: categorie.value,
+    });
+    router.push("/recette-list");
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la recette", error);
+    // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+  }
+};
 
 onMounted(async () => {
   await store.fetchCategories();
-  const recetteExistante = store.getById(Number(route.params.id));
-  if (recetteExistante) {
-    titre.value = recetteExistante.titre;
-    ingredient.value = recetteExistante.ingredient;
-    type.value = recetteExistante.type;
-    categorie.value = recetteExistante.categorie;
-  }
+  await loadRecipe();
 });
-const updateRecette = () => {
-  store.edit(Number(route.params.id), {
-    titre: titre.value,
-    ingredient: ingredient.value,
-    type: type.value,
-    categorie: categorie.value,
-  });
-  router.push('/recette-list');
-};
-
 </script>
+
+<style scoped>
+/* Styles spécifiques si nécessaire */
+</style>

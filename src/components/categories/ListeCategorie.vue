@@ -12,7 +12,8 @@
       <div class="col-md-4 mb-4" v-for="categorie in categories" :key="categorie.id">
         <div class="card h-100">
           <div class="card-body">
-            <h5 class="card-title">{{ categorie.name }}</h5>
+            <h5 class="card-title"><strong>{{ $t("title") }} : </strong>   {{ categorie.name }} </h5>
+ 
           </div>
           <div class="card-footer d-flex justify-content-between">
             <router-link :to="`/categorie/edit/${categorie.id}`" class="btn btn-warning btn-sm">
@@ -46,7 +47,16 @@ onMounted(async () => {
 const deleteCategory = async (id) => {
   const confirmation = confirm("Are you sure you want to delete this category?");
   if (confirmation) {
-    await store.deleteCategorie(id);
+    // console.log("ID de la catégorie à supprimer:", id);
+    
+    try {
+      await store.deleteCategorie(id);
+      // console.log("Catégorie supprimée avec succès.");
+      window.location.href = '/category-list'; 
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la catégorie:", error);
+    }
   }
 };
+
 </script>

@@ -75,9 +75,9 @@ const categorie = ref("");
 const onSubmit = async () => {
   await store.add({
     title: title.value,
-    ingredients: ingredients.value, 
+    ingredient: ingredients.value, 
     type: type.value,
-    categorie: categorie.value,
+    categorie_id: categorie.value,
   });
   router.push("/recette-list");
 };
