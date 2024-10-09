@@ -1,17 +1,13 @@
 <template>
   <div class="edit-category-container p-4 w-50 mx-auto">
-    <h2>{{ $t("edit_category") }}</h2>
+    <h2>{{ $t("category_edit") }}</h2>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
         <label for="nomCategorie" class="form-label">{{ $t("category_name") }}</label>
-        <input
-  type="text"
-  id="nomCategorie"
-  v-model="nomCategorie"
-  placeholder="Modifier le nom de la catégorie"
-  class="form-control"
-/>
-
+        <input type="text" id="nomCategorie" v-model="nomCategorie" placeholder="Modifier le nom de la catégorie"
+          class="form-control"
+        />
+        
       </div>
       <button class="btn btn-primary me-2" type="submit">
         <i class="fas fa-save"></i> {{ $t("save_changes") }}
@@ -26,35 +22,41 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useCategorieStore } from "../../store/categorieStore"; 
+import { useCategorieStore } from "../../store/categorieStore";
 
 const nomCategorie = ref("");
 const categoryId = ref(null);
-const store = useCategorieStore(); 
+const store = useCategorieStore();
 const router = useRouter();
 const route = useRoute();
 
 onMounted(async () => {
   categoryId.value = route.params.id;
-  await store.fetchCategorieById(categoryId.value);  
-  
+  await store.fetchCategorieById(categoryId.value);
   const categorie = store.selectedCategorie;
+  
   if (categorie) {
-    nomCategorie.value = categorie.nom; 
+    nomCategorie.value = categorie.name;
   } else {
     console.error("Catégorie non trouvée");
   }
 });
 
 const onSubmit = async () => {
-  try {
-   
-    await store.updateCategorie(categoryId.value, { nom: nomCategorie.value });
-    router.push("/category-list");  
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour de la catégorie", error);
+  if (nomCategorie.value.trim()) {
+    try {
+      await store.updateCategorie(categoryId.value, { nom: nomCategorie.value });
+      alert("Catégorie ajoutée avec succès.");
+      router.push("/category-list");
+    } catch (error) {
+      console.error("Erreur lors de l'ajout de la catégorie", error);
+      alert("Erreur lors de l'ajout de la catégorie.");
+    }
+  } else {
+    alert("Le nom de la catégorie ne peut pas être vide.");
   }
 };
+
 const onCancel = () => {
   router.push("/category-list");
 };

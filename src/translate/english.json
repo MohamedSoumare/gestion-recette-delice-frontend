@@ -45,5 +45,6 @@
     "new_category": "New category",
     "category": "Category",
     "save_changes": "Save",
-     "category_details" :  "Details Category"
+     "category_details" :  "Details Category",
+     "category_edit": "update catégory"
 }

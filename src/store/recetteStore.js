@@ -38,8 +38,8 @@ export const useRecetteStore = defineStore('recetteStore', {
     async add(recipeData) {
       try {
         const response = await axiosInstance.post("/recipes/add", recipeData);
-        this.recettes.push(response.data);
-        return response.data;
+        await this.fetchRecettes(); 
+
       } catch (error) {
         console.error("Erreur lors de l'ajout de la recette", error);
         throw error;

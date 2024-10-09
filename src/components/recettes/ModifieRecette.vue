@@ -50,6 +50,9 @@
         <button type="submit" class="btn btn-success">
           {{ $t("update") }}
         </button>
+        <button class="btn btn-secondary" type="button" @click="onCancel">
+        <i class="fas fa-undo"></i> {{ $t("cancel") }}
+      </button>
       </form>
     </div>
   </div>
@@ -92,7 +95,7 @@ const updateRecipe = async () => {
     router.push("/recette-list");
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la recette", error);
-    // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+    
   }
 };
 
@@ -100,6 +103,9 @@ onMounted(async () => {
   await store.fetchCategories();
   await loadRecipe();
 });
+const onCancel = () => {
+  router.push("/recette-list");
+};
 </script>
 
 <style scoped>
