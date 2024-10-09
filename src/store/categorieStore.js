@@ -50,8 +50,7 @@ export const useCategorieStore = defineStore("categorieStore", {
                 this.loading = false;
             }
         },
-
-        async deleteCategorie(id) {
+           async deleteCategorie(id) {
             this.loading = true;
             try {
                 await axiosInstance.delete(`/categories/delete/${id}`);
@@ -63,6 +62,7 @@ export const useCategorieStore = defineStore("categorieStore", {
                 this.loading = false;
             }
         },
+    
 
         async fetchCategorieById(id) {
             this.loading = true;

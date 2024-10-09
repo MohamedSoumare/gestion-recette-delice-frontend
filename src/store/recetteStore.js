@@ -65,7 +65,8 @@ export const useRecetteStore = defineStore('recetteStore', {
       this.loading = true;
       try {
         await axiosInstance.delete(`/recipes/delete/${id}`);
-        this.recettes = this.recettes.filter(r => r.id != id);
+        // Mettre à jour la liste des recettes après suppression
+        this.recettes = this.recettes.filter(r => r.id !== id);
       } catch (error) {
         console.error('Erreur lors de la suppression de la recette:', error);
         throw error;
@@ -73,7 +74,7 @@ export const useRecetteStore = defineStore('recetteStore', {
         this.loading = false;
       }
     },
-
+    
     getById(id) {
       return this.recettes.find(r => r.id == id);
     },

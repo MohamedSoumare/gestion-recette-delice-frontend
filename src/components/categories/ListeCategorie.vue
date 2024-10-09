@@ -44,19 +44,16 @@ onMounted(async () => {
   categories.value = store.categories;
 });
 
-const deleteCategory = async (id) => {
-  const confirmation = confirm("Are you sure you want to delete this category?");
-  if (confirmation) {
-    // console.log("ID de la catégorie à supprimer:", id);
-    
+ const deleteCategory = async (id) => {
+   const confirmation = confirm('Êtes-vous sûr de vouloir supprimer cette catégorie?');
+   if (confirmation) {
     try {
-      await store.deleteCategorie(id);
-      // console.log("Catégorie supprimée avec succès.");
-      window.location.href = '/category-list'; 
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la catégorie:", error);
-    }
-  }
+     await store.deleteCategorie(id);
+     alert('Catégorie supprimée avec succès.');
+        window.location.href = '/category-list'; 
+   } catch (error) {
+     alert('Erreur: Impossible de supprimer cette catégorie. Des recettes y sont associées.');
+   }
+     }
 };
-
 </script>

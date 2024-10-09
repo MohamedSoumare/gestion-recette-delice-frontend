@@ -44,5 +44,6 @@
     "cancel": "Cancel",
     "new_category": "New category",
     "category": "Category",
-    "save_changes": "Save"
+    "save_changes": "Save",
+     "category_details" :  "Details Category"
 }

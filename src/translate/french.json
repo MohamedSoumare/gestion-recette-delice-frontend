@@ -44,5 +44,6 @@
     "discover": "Decouvrir",
     "category": "Catégorie",
     "new_category": "Nouvelle catégorie",
-    "save_changes": "Enregistrer"
+    "save_changes": "Enregistrer",
+    "category_details" :  "Details Categorie"
 }
