@@ -13,6 +13,7 @@
             class="form-control"
             required
           />
+          <div v-if="errors.title" class="text-danger">{{ errors.title }}</div>
         </div>
 
         <!-- Champ ingrédients -->
@@ -25,6 +26,7 @@
             class="form-control"
             required
           />
+          <div v-if="errors.ingredients" class="text-danger">{{ errors.ingredients }}</div>
         </div>
 
         <!-- Sélection du type -->
@@ -35,6 +37,7 @@
             <option value="entree">{{ $t("starter") }}</option>
             <option value="plat">{{ $t("main") }}</option>
           </select>
+          <div v-if="errors.type" class="text-danger">{{ errors.type }}</div>
         </div>
 
         <!-- Sélection de la catégorie -->
@@ -49,16 +52,15 @@
               {{ cat.name }}
             </option>
           </select>
+          <div v-if="errors.categorie" class="text-danger">{{ errors.categorie }}</div>
         </div>
 
-        <!-- Bouton de soumission -->
         <button type="submit" class="btn btn-success me-2">
+          <i class="fas fa-plus"></i>
           {{ $t("submit") }}
         </button>
-
-        <!-- Bouton retour -->
-        <button type="button" class="btn btn-secondary" @click="goBack">
-          {{ $t("back") }}
+        <button class="btn btn-secondary" type="button" @click="onCancel">
+          <i class="fas fa-undo"></i> {{ $t("cancel") }}
         </button>
       </form>
     </div>
@@ -66,41 +68,72 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRecetteStore } from "../../store/recetteStore";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useRecetteStore } from "../../store/recetteStore";
 
 const store = useRecetteStore();
 const router = useRouter();
 
 const title = ref("");
-const ingredients = ref(""); 
+const ingredients = ref("");
 const type = ref("");
 const categorie = ref("");
 
-// Fonction pour soumettre le formulaire
+const errors = ref({
+  title: "",
+  ingredients: "",
+  type: "",
+  categorie: "",
+});
+
+const validateForm = () => {
+  let isValid = true;
+
+  if (!title.value || title.value.length < 5 || title.value.length > 100) {
+    errors.value.title = 'Le titre doit comporter entre 5 et 100 caractères.';
+    isValid = false;
+  } else {
+    errors.value.title = "";
+  }
+
+  if (!ingredients.value || ingredients.value.length < 10 || ingredients.value.length > 500) {
+    errors.value.ingredients = 'Les ingrédients doivent comporter entre 10 et 500 caractères.';
+    isValid = false;
+  } else {
+    errors.value.ingredients = "";
+  }
+
+  if (!type.value) {
+    errors.value.type = 'Le type de recette est obligatoire.';
+    isValid = false;
+  } else {
+    errors.value.type = "";
+  }
+
+  if (!categorie.value || isNaN(categorie.value)) {
+    errors.value.categorie = 'La catégorie doit être un ID numérique valide.';
+    isValid = false;
+  } else {
+    errors.value.categorie = "";
+  }
+
+  return isValid;
+};
+
 const onSubmit = async () => {
+  if (!validateForm()) return;
+
   await store.add({
     title: title.value,
-    ingredient: ingredients.value, 
+    ingredient: ingredients.value,
     type: type.value,
     categorie_id: categorie.value,
   });
   router.push("/recette-list");
 };
 
-// Fonction pour gérer le bouton "Retour"
-const goBack = () => {
-  router.push("/recette-list"); // Remplacer par la route vers laquelle vous souhaitez revenir
+const onCancel = () => {
+  router.push("/recette-list"); // Redirection vers la liste des recettes
 };
-
-// Chargement des catégories et des recettes au montage du composant
-onMounted(async () => {
-  await store.fetchCategories();
-  await store.fetchRecettes();
-});
 </script>
-
-<style scoped>
-/* Styles personnalisés peuvent être ajoutés ici */
-</style>
