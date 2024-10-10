@@ -21,7 +21,7 @@
               <i class="fas fa-edit"></i> {{ $t("edit") }}
             </router-link>
             <router-link :to="`/categorie/details/${categorie.id}`" class="btn btn-info btn-sm">
-              <i class="fas fa-eye"></i> {{ $t("view_details") }}
+              <i class="fas fa-eye"></i> {{ $t("details_category") }}
             </router-link>
             <button class="btn btn-danger btn-sm" @click="deleteCategory(categorie.id)">
               <i class="fas fa-trash"></i> {{ $t("delete") }}
@@ -53,7 +53,12 @@ onMounted(async () => {
      alert('Catégorie supprimée avec succès.');
         window.location.href = '/category-list'; 
    } catch (error) {
-     alert('Erreur: Impossible de supprimer cette catégorie. Des recettes y sont associées.');
+    if(error){
+      alert(' Impossible de supprimer une catégorie assiocié à une recette.');
+    }else{
+      alert('Erreur lors de la suppression de la catégorie. Veuillez revoir réessayer.');
+    }
+     
    }
      }
 };

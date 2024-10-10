@@ -51,22 +51,18 @@ export const useCategorieStore = defineStore("categorieStore", {
         },
     
         async deleteCategorie(id) {
-            this.loading = true;
-            try {
-              // Vérification des recettes associées
-              const response = await axiosInstance.get(`/categories/${id}`);
-              
-          
-              // Si aucune recette n'est associée, procéder à la suppression
-              await axiosInstance.delete(`/categories/delete/${id}`);
-              await this.fetchCategories(); // Mettre à jour la liste après suppression
-            } catch (error) {
-              this.error = error.message || "Erreur lors de la suppression de la catégorie";
-                      } finally {
-              this.loading = false;
-            }
-        },
-        
+          this.loading = true;
+          try {
+            await axiosInstance.delete(`/categories/delete/${id}`);
+            this.categories = this.categories.filter(
+              (category) => category.id !== id
+            );
+          } catch (error) {
+           throw error
+          } finally {
+            this.loading = false;
+          }
+        }, 
         async fetchCategorieById(id) {
           this.loading = true;
           try {
