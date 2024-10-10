@@ -1,116 +1,60 @@
+
 <template>
-  <div class="p-4 w-50 mx-auto">
-    <div class="container">
-      <h3><i class="fas fa-edit me-2"></i>{{ $t("editRecipe") }}</h3>
-      <form @submit.prevent="updateRecipe">
-        <div class="mb-3">
-          <label for="title" class="form-label">{{ $t("title") }}</label>
-          <input
-            type="text"
-            v-model="title"
-            id="title"
-            class="form-control"
-            required
-          />
-        </div>
+  <div class="recipe-list-background p-5">
+    <h2 class="text-center">{{ $t("category list") }}</h2>
 
-        <div class="mb-3">
-          <label for="ingredients" class="form-label">{{ $t("ingredients") }}</label>
-          <input
-            type="text"
-            v-model="ingredients"
-            id="ingredients"
-            class="form-control"
-            required
-          />
-        </div>
+    <div class="text-end mb-4">
+      <router-link to="/categorie/new" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> {{ $t("new_category") }}
+      </router-link>
+    </div>
 
-        <div class="mb-3">
-          <label for="type" class="form-label">{{ $t("type") }}</label>
-          <select v-model="type" id="type" class="form-select" required>
-            <option value="dessert">{{ $t("dessert") }}</option>
-            <option value="entree">{{ $t("starter") }}</option>
-            <option value="plat">{{ $t("main") }}</option>
-          </select>
+    <div class="row">
+      <div class="col-md-4 mb-4" v-for="categorie in categories" :key="categorie.id">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title"><strong>{{ $t("title") }} : </strong>   {{ categorie.name }} </h5>
+ 
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <router-link :to="`/categorie/edit/${categorie.id}`" class="btn btn-warning btn-sm">
+              <i class="fas fa-edit"></i> {{ $t("edit") }}
+            </router-link>
+            <router-link :to="`/categorie/details/${categorie.id}`" class="btn btn-info btn-sm">
+              <i class="fas fa-eye"></i> {{ $t("view_details") }}
+            </router-link>
+            <button class="btn btn-danger btn-sm" @click="deleteCategory(categorie.id)">
+              <i class="fas fa-trash"></i> {{ $t("delete") }}
+            </button>
+          </div>
         </div>
-
-        <div class="mb-3">
-          <label for="categorie" class="form-label">{{ $t("category") }}</label>
-          <select v-model="categorie" id="categorie" class="form-select" required>
-            <option
-              v-for="cat in store.categories"
-              :key="cat.id"
-              :value="cat.id"
-            >
-              {{ cat.name }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Boutons alignés sur le même niveau -->
-        <div class="d-flex justify-content-start">
-          <button type="submit" class="btn btn-success me-2">
-            {{ $t("update") }}
-          </button>
-          <button class="btn btn-secondary" type="button" @click="onCancel">
-            <i class="fas fa-undo"></i> {{ $t("cancel") }}
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRecetteStore } from "../../store/recetteStore";
-import { useRoute, useRouter } from "vue-router";
+import { useCategorieStore } from "../../store/categorieStore"; 
 
-const store = useRecetteStore();
-const route = useRoute();
-const router = useRouter();
-
-const title = ref("");
-const ingredients = ref("");
-const type = ref("");
-const categorie = ref("");
-
-const id = route.params.id;
-
-const loadRecipe = async () => {
-  const recipe = await store.getById(id);
-  if (recipe) {
-    title.value = recipe.title;
-    ingredients.value = recipe.ingredient;
-    type.value = recipe.type;
-    categorie.value = recipe.categorie_id;
-  }
-};
-
-const updateRecipe = async () => {
-  try {
-    await store.update(id, {
-      title: title.value,
-      ingredient: ingredients.value,
-      type: type.value,
-      categorie_id: categorie.value,
-    });
-    router.push("/recette-list");
-  } catch (error) {
-    console.error("Erreur lors de la mise à jour de la recette", error);
-  }
-};
+const store = useCategorieStore();
+const categories = ref([]);
 
 onMounted(async () => {
   await store.fetchCategories();
-  await loadRecipe();
+  categories.value = store.categories;
 });
 
-const onCancel = () => {
-  router.push("/recette-list");
+ const deleteCategory = async (id) => {
+   const confirmation = confirm('Êtes-vous sûr de vouloir supprimer cette catégorie?');
+   if (confirmation) {
+    try {
+     await store.deleteCategorie(id);
+     alert('Catégorie supprimée avec succès.');
+        window.location.href = '/category-list'; 
+   } catch (error) {
+     alert('Erreur: Impossible de supprimer cette catégorie. Des recettes y sont associées.');
+   }
+     }
 };
 </script>
-
-<style scoped>
-/* Styles spécifiques si nécessaire */
-</style>
