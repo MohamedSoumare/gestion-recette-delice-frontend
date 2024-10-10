@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 w-50 mx-auto">
-    <div class="container">
-      <h3><i class="fas fa-edit me-2"></i>{{ $t("editRecipe") }}</h3>
+    <div class="container mt-5">
+      <h3><i class="fas fa-edit me-3"></i>{{ $t("editRecipe") }}</h3>
       <form @submit.prevent="updateRecipe">
         <div class="mb-3">
           <label for="title" class="form-label">{{ $t("title") }}</label>
@@ -47,12 +47,13 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-success">
+        <!-- Boutons avec espace entre eux -->
+        <button type="submit" class="btn btn-success me-2">
           {{ $t("update") }}
         </button>
         <button class="btn btn-secondary" type="button" @click="onCancel">
-        <i class="fas fa-undo"></i> {{ $t("cancel") }}
-      </button>
+          <i class="fas fa-undo"></i> {{ $t("cancel") }}
+        </button>
       </form>
     </div>
   </div>
@@ -95,7 +96,6 @@ const updateRecipe = async () => {
     router.push("/recette-list");
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la recette", error);
-    
   }
 };
 
@@ -103,6 +103,7 @@ onMounted(async () => {
   await store.fetchCategories();
   await loadRecipe();
 });
+
 const onCancel = () => {
   router.push("/recette-list");
 };

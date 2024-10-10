@@ -12,10 +12,13 @@
           class="form-control"
         />
       </div>
-      <button class="btn btn-primary me-2" type="submit">
+      <!-- Bouton de soumission stylisé -->
+      <button class="btn btn-submit me-2" type="submit">
         <i class="fas fa-plus"></i> {{ $t("submit") }}
       </button>
-      <button class="btn btn-secondary" type="button" @click="onCancel">
+
+      <!-- Bouton d'annulation stylisé -->
+      <button class="btn btn-cancel" type="button" @click="onCancel">
         <i class="fas fa-undo"></i> {{ $t("cancel") }}
       </button>
     </form>
@@ -45,7 +48,6 @@ const onSubmit = async () => {
   }
 };
 
-
 const onCancel = () => {
   router.push("/category-list");
 };
@@ -55,5 +57,33 @@ const onCancel = () => {
 .add-category-container {
   max-width: 600px;
   margin: auto;
+}
+
+/* Style du bouton de soumission (vert) */
+.btn-submit {
+  background-color: #28a745; /* Vert */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-submit:hover {
+  background-color: #218838; /* Vert foncé au survol */
+}
+
+/* Style du bouton d'annulation (gris) */
+.btn-cancel {
+  background-color: #6c757d; /* Gris */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268; /* Gris foncé au survol */
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-category-container p-4 w-50 mx-auto">
+  <div class="edit-category-container mt-5 p-4 w-50 mx-auto">
     <h2>{{ $t("category_edit") }}</h2>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
@@ -34,7 +34,7 @@ onMounted(async () => {
   categoryId.value = route.params.id;
   await store.fetchCategorieById(categoryId.value);
   const categorie = store.selectedCategorie;
-  
+
   if (categorie) {
     nomCategorie.value = categorie.name;
   } else {

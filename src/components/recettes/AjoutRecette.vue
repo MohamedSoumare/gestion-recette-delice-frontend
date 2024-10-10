@@ -51,8 +51,14 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-success">
+        <!-- Bouton de soumission -->
+        <button type="submit" class="btn btn-success me-2">
           {{ $t("submit") }}
+        </button>
+
+        <!-- Bouton retour -->
+        <button type="button" class="btn btn-secondary" @click="goBack">
+          {{ $t("back") }}
         </button>
       </form>
     </div>
@@ -72,6 +78,7 @@ const ingredients = ref("");
 const type = ref("");
 const categorie = ref("");
 
+// Fonction pour soumettre le formulaire
 const onSubmit = async () => {
   await store.add({
     title: title.value,
@@ -80,6 +87,11 @@ const onSubmit = async () => {
     categorie_id: categorie.value,
   });
   router.push("/recette-list");
+};
+
+// Fonction pour gérer le bouton "Retour"
+const goBack = () => {
+  router.push("/recette-list"); // Remplacer par la route vers laquelle vous souhaitez revenir
 };
 
 // Chargement des catégories et des recettes au montage du composant
