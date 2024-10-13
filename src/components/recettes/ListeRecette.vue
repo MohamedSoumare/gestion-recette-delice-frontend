@@ -2,20 +2,19 @@
   <div class="p-5">
     <h2 class="text-center">{{ $t("recipe_list") }}</h2>
     <div class="d-flex justify-content-between mb-4 align-items-center">
-      <div class="d-flex">
+      <div class="d-flex align-items-stretch">
         <input
           v-model="searchQuery"
           class="form-control form-control-sm me-2"
           :placeholder="$t('search_placeholder')"
         />
-    <select v-model="selectedCategorie" class="form-select form-select-sm me-2">
-      <option value="">{{ $t("all_categories") }}</option>
-      <option v-for="cat in store.categories" :key="cat.id" :value="cat.id">
-        {{ cat.name }}
-      </option>
-    </select>
-
-        <button @click="searchRecettes" class="btn btn-success btn-sm">
+        <select v-model="selectedCategorie" class="form-select form-select-sm me-2">
+          <option value="">{{ $t("all_categories") }}</option>
+          <option v-for="cat in store.categories" :key="cat.id" :value="cat.id">
+            {{ cat.name }}
+          </option>
+        </select>
+        <button @click="searchRecettes" class="btn btn-success btn-sm d-flex align-items-center">
           <i class="fas fa-search me-1"></i>{{ $t("search") }}
         </button>
       </div>
@@ -52,6 +51,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';

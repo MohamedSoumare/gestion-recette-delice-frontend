@@ -1,6 +1,6 @@
 <template>
-  <div class="add-category-container p-4 w-50 mx-auto">
-    <h2>{{ $t("add a category") }}</h2>
+  <div class="add-category-container p-5 w-50 mx-auto">
+    <h2 class="text-center mb-5 mt-5">{{ $t("add a category") }}</h2>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
         <label for="nomCategorie" class="form-label">{{ $t("category_name") }}</label>
@@ -12,15 +12,16 @@
           class="form-control"
         />
       </div>
-      <!-- Bouton de soumission stylisé -->
-      <button class="btn btn-submit me-2" type="submit">
-        <i class="fas fa-plus"></i> {{ $t("submit") }}
-      </button>
+      <!-- Boutons stylisés avec espacement -->
+      <div class="d-flex justify-content-start">
+        <button class="btn btn-submit me-2" type="submit">
+          <i class="fas fa-plus"></i> {{ $t("submit") }}
+        </button>
 
-      <!-- Bouton d'annulation stylisé -->
-      <button class="btn btn-cancel" type="button" @click="onCancel">
-        <i class="fas fa-undo"></i> {{ $t("cancel") }}
-      </button>
+        <button class="btn btn-cancel" type="button" @click="onCancel">
+          <i class="fas fa-undo"></i> {{ $t("cancel") }}
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -85,5 +86,10 @@ const onCancel = () => {
 
 .btn-cancel:hover {
   background-color: #5a6268; /* Gris foncé au survol */
+}
+
+/* Espacement entre les boutons */
+.d-flex {
+  margin-top: 20px;
 }
 </style>

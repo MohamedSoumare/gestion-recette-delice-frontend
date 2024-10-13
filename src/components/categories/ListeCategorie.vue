@@ -1,4 +1,3 @@
-
 <template>
   <div class="recipe-list-background p-5">
     <h2 class="text-center">{{ $t("category list") }}</h2>
@@ -14,7 +13,6 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title"><strong>{{ $t("title") }} : </strong>   {{ categorie.name }} </h5>
- 
           </div>
           <div class="card-footer d-flex justify-content-between">
             <router-link :to="`/categorie/edit/${categorie.id}`" class="btn btn-warning btn-sm">

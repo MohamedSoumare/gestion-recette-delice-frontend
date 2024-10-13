@@ -1,7 +1,7 @@
 <template>
-  <div class="p-4 w-50 mx-auto">
+  <div class="p-5 w-50 mx-auto">
     <div class="container">
-      <h3><i class="fas fa-plus me-2"></i>{{ $t("addRecipe") }}</h3>
+      <h3 class="text-center"><i class="fas fa-plus me-2"></i>{{ $t("addRecipe") }}</h3>
       <form @submit.prevent="onSubmit">
         <!-- Champ titre -->
         <div class="mb-3">

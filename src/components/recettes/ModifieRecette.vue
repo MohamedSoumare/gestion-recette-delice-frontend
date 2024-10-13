@@ -1,7 +1,7 @@
 <template>
-  <div class="p-4 w-50 mx-auto">
+  <div class="p-5 w-50 mx-auto">
     <div class="container mt-5">
-      <h3><i class="fas fa-edit me-3"></i>{{ $t("editRecipe") }}</h3>
+      <h3 class="text-center"><i class="fas fa-edit me-3"></i>{{ $t("editRecipe") }}</h3>
       <form @submit.prevent="updateRecipe">
         <div class="mb-3">
           <label for="title" class="form-label">{{ $t("title") }}</label>
